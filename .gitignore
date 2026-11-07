@@ -1,0 +1,6 @@
+.agent_worktrees/
+.claude/contracts/ACTIVE
+__pycache__/
+*.pyc
+.env
+.env.*

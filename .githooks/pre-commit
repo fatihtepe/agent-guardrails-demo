@@ -1,0 +1,3 @@
+#!/bin/sh
+# Gate plane: refuse commits not covered by an APPROVED receipt.
+exec python3 "$(git rev-parse --show-toplevel)/scripts/verify_receipt.py"

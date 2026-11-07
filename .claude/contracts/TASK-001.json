@@ -1,0 +1,11 @@
+{
+  "task_id": "TASK-001",
+  "intent": "Add a staging rule: staging services may not exceed 3 replicas.",
+  "allowed_paths": ["app/inventory.py", "tests/test_inventory.py"],
+  "budget": { "max_turns": 20, "max_usd": 4.50, "timeout_seconds": 600 },
+  "acceptance_commands": [
+    "python3 -m unittest discover -s tests -t .",
+    "python3 -m py_compile app/inventory.py"
+  ],
+  "required_artifacts": [".claude/receipts/receipt-TASK-001.json"]
+}

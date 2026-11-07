@@ -1,0 +1,35 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests + guard barrier tests
+        run: python3 -m unittest discover -s tests -t . -v
+      - name: Every changed app file must be covered by an APPROVED receipt
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          python3 - <<'EOF'
+          import hashlib, json, pathlib, subprocess, sys
+          changed = subprocess.run(["git", "diff", "--name-only", "--diff-filter=AM", "FETCH_HEAD", "HEAD"],
+                                   capture_output=True, text=True, check=True).stdout.split()
+          approved = {}
+          for r in pathlib.Path(".claude/receipts").glob("receipt-*.json"):
+              d = json.loads(r.read_text())
+              if d["status"] == "APPROVED":
+                  approved.update(d["files"])
+          bad = [f for f in changed if f.startswith(("app/", "tests/"))
+                 and approved.get(f) != hashlib.sha256(pathlib.Path(f).read_bytes()).hexdigest()]
+          if bad:
+              sys.exit(f"Not covered by an APPROVED receipt: {bad}")
+          print("All changed app/test files are covered by receipts")
+          EOF
