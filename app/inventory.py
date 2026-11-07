@@ -24,6 +24,8 @@ def validate(service: Service) -> list[str]:
         problems.append("replicas must be >= 1")
     if service.env == "prod" and service.replicas < 2:
         problems.append("prod services need at least 2 replicas")
+    if service.env == "staging" and service.replicas > 3:
+        problems.append("staging services may not exceed 3 replicas")
     return problems
 
 
