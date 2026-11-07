@@ -1,0 +1,22 @@
+{
+  "task_id": "TASK-002",
+  "status": "APPROVED",
+  "created_at": "2026-11-07T18:54:49.727210+00:00",
+  "files": {
+    ".claude/contracts/TASK-002.json": "1db1f6c38641852b206dd95bf9612438e0fb7ff5aa80f6ca0825f5c8e649243a",
+    ".github/workflows/ci.yml": "76e33eeb69f72b6e19394a62bbe4e9ffa52893c16e6c168bc11a0401d23f1985"
+  },
+  "files_outside_contract": [],
+  "acceptance": [
+    {
+      "command": "python3 -m unittest discover -s tests -t .",
+      "exit_code": 0,
+      "output_tail": ".................\n----------------------------------------------------------------------\nRan 17 tests in 0.311s\n\nOK\n"
+    },
+    {
+      "command": "python3 -c \"import pathlib,sys; t=pathlib.Path('.github/workflows/ci.yml').read_text(); sys.exit('@v4' in t or '@v5' in t)\"",
+      "exit_code": 0,
+      "output_tail": ""
+    }
+  ]
+}

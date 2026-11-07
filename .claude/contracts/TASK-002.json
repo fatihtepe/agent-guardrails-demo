@@ -1,0 +1,11 @@
+{
+  "task_id": "TASK-002",
+  "intent": "Update GitHub Actions to current majors to remove the Node.js 20 deprecation warning.",
+  "allowed_paths": [".github/workflows/ci.yml", ".claude/contracts/TASK-002.json"],
+  "budget": { "max_turns": 5, "max_usd": 1.00, "timeout_seconds": 300 },
+  "acceptance_commands": [
+    "python3 -m unittest discover -s tests -t .",
+    "python3 -c \"import pathlib,sys; t=pathlib.Path('.github/workflows/ci.yml').read_text(); sys.exit('@v4' in t or '@v5' in t)\""
+  ],
+  "required_artifacts": [".claude/receipts/receipt-TASK-002.json"]
+}
